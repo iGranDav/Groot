@@ -41,11 +41,9 @@ extension NSManagedObject {
 
     internal static func entity(inManagedObjectContext context: NSManagedObjectContext) -> NSEntityDescription {
 
-        guard let model = context.managedObjectModel else {
+        guard let model = context.managedObjectModel, let className = String(reflecting: self).components(separatedBy: ".").last else {
             fatalError("Could not find managed object model for the provided context.")
         }
-
-        let className = String(reflecting: self)
 
         for entity in model.entities {
             if entity.managedObjectClassName == className {
